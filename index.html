@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramas Entidad-Relación</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f6fb;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      padding: 35px 20px;
+      text-align: center;
+    }
+
+    header h1 { margin: 0; font-size: 2.2rem; }
+    header p { font-size: 1.1rem; margin-top: 10px; }
+
+    main {
+      max-width: 1150px;
+      margin: 30px auto;
+      padding: 0 20px 40px;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 25px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      color: #1f4e79;
+      border-left: 6px solid #3498db;
+      padding-left: 12px;
+    }
+
+    h3 { color: #2c3e50; margin-top: 25px; }
+
+    .idea {
+      background: #eaf4ff;
+      border-left: 6px solid #3498db;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+
+    .aviso {
+      background: #fff6d8;
+      border-left: 6px solid #f1c40f;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+
+    .actividad {
+      background: #eefaf0;
+      border-left: 6px solid #27ae60;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #f8fbff;
+      border: 2px solid #dcecff;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .card h3 { margin-top: 0; color: #1f4e79; }
+
+    .svg-diagrama {
+      width: 100%;
+      max-width: 1050px;
+      display: block;
+      margin: 25px auto;
+      background: #f7f9fc;
+      border: 2px dashed #b7c9dd;
+      border-radius: 14px;
+    }
+
+    .zona-dibujo {
+      min-height: 260px;
+      border: 3px dashed #7f8c8d;
+      border-radius: 14px;
+      background: repeating-linear-gradient(
+        0deg,
+        #ffffff,
+        #ffffff 24px,
+        #f0f4f8 25px
+      );
+      padding: 15px;
+      margin: 15px 0;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: #3498db; color: white; }
+    tr:nth-child(even) { background: #f2f8ff; }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #1f4e79;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 2px solid #cbd9e6;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    textarea { min-height: 95px; resize: vertical; }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 12px;
+      background: #27ae60;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #219150; }
+
+    .leyenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .leyenda span {
+      background: #f4f6f7;
+      border: 1px solid #ccd1d1;
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2c3e50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Diagramas Entidad-Relación</h1>
+  <p>Introducción básica al diseño de bases de datos</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>1. ¿Qué es un diagrama Entidad-Relación?</h2>
+    <p>
+      Un <strong>diagrama Entidad-Relación</strong>, también llamado <strong>diagrama E/R</strong>, es un dibujo que nos ayuda a organizar la información antes de crear una base de datos.
+    </p>
+
+    <div class="idea">
+      <strong>Idea principal:</strong> antes de crear tablas en una base de datos, necesitamos pensar qué información queremos guardar, cómo se agrupa y cómo se relaciona entre sí.
+    </div>
+  </section>
+
+  <section>
+    <h2>2. Elementos básicos de un diagrama E/R</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Entidad</h3>
+        <p>Es algo importante de lo que queremos guardar información.</p>
+        <p><strong>Ejemplos:</strong> Cliente, Libro, Alumno, Producto.</p>
+      </div>
+
+      <div class="card">
+        <h3>Atributo o campo</h3>
+        <p>Es una característica o dato de una entidad.</p>
+        <p><strong>Ejemplos:</strong> nombre, teléfono, precio, fecha.</p>
+      </div>
+
+      <div class="card">
+        <h3>Campo clave</h3>
+        <p>Es el campo que identifica de forma única a cada registro.</p>
+        <p><strong>Ejemplo:</strong> id_cliente.</p>
+      </div>
+
+      <div class="card">
+        <h3>Relación</h3>
+        <p>Indica cómo se conectan dos entidades.</p>
+        <p><strong>Ejemplos:</strong> compra, presta, pertenece, realiza.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Cómo se ponen los campos y el campo clave</h2>
+
+    <p>
+      En un diagrama sencillo podemos dibujar cada entidad como una caja. Arriba ponemos el nombre de la entidad y debajo escribimos sus campos.
+    </p>
+
+    <p>
+      El <strong>campo clave</strong> se suele marcar subrayado o con la indicación <strong>PK</strong>, que significa <em>Primary Key</em> o clave primaria.
+    </p>
+
+    <svg class="svg-diagrama" viewBox="0 0 900 260" role="img" aria-label="Ejemplo de entidad Cliente con sus campos">
+      <rect x="330" y="35" width="240" height="180" rx="10" fill="#ffffff" stroke="#3498db" stroke-width="3"></rect>
+      <rect x="330" y="35" width="240" height="45" rx="10" fill="#d6eaff" stroke="#3498db" stroke-width="3"></rect>
+      <text x="450" y="64" text-anchor="middle" font-size="20" font-weight="bold" fill="#123b5d">CLIENTE</text>
+      <line x1="330" y1="80" x2="570" y2="80" stroke="#3498db" stroke-width="2"></line>
+      <text x="350" y="112" font-size="17" font-weight="bold" fill="#c0392b">PK id_cliente</text>
+      <line x1="350" y1="117" x2="468" y2="117" stroke="#c0392b" stroke-width="2"></line>
+      <text x="350" y="150" font-size="17" fill="#222">nombre</text>
+      <text x="350" y="185" font-size="17" fill="#222">telefono</text>
+    </svg>
+
+    <div class="leyenda">
+      <span><strong>PK</strong>: clave primaria, identifica cada registro.</span>
+      <span><strong>FK</strong>: clave ajena, conecta con otra tabla.</span>
+      <span><span class="clave">Subrayado</span>: también puede indicar campo clave.</span>
+    </div>
+
+    <div class="aviso">
+      Ejemplo: dos clientes pueden llamarse igual, pero no pueden tener el mismo id_cliente. Por eso id_cliente es el campo clave.
+    </div>
+  </section>
+
+  <section>
+    <h2>4. Cardinalidades básicas</h2>
+    <p>
+      Las <strong>cardinalidades</strong> indican cuántos elementos de una entidad pueden relacionarse con elementos de otra entidad.
+    </p>
+
+    <table>
+      <tr>
+        <th>Cardinalidad</th>
+        <th>Significado</th>
+        <th>Ejemplo</th>
+      </tr>
+      <tr>
+        <td>1:1</td>
+        <td>Un elemento se relaciona con un único elemento.</td>
+        <td>Una persona tiene un DNI.</td>
+      </tr>
+      <tr>
+        <td>1:N</td>
+        <td>Un elemento se relaciona con muchos elementos.</td>
+        <td>Un profesor imparte muchas asignaturas.</td>
+      </tr>
+      <tr>
+        <td>N:M</td>
+        <td>Muchos elementos se relacionan con muchos elementos.</td>
+        <td>Un alumno puede matricularse en varias asignaturas y una asignatura puede tener varios alumnos.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>5. Problema de ejemplo: tienda de videojuegos</h2>
+
+    <h3>Enunciado del cliente</h3>
+    <p>
+      Una pequeña tienda de videojuegos llamada <strong>GameZone</strong> necesita crear una base de datos para organizar mejor la información de su negocio.
+    </p>
+
+    <p>
+      Actualmente apuntan las ventas en papel y están teniendo problemas para saber qué clientes compran más, qué videojuegos tienen disponibles y qué juegos ha comprado cada cliente.
+    </p>
+
+    <p>La tienda necesita guardar la siguiente información:</p>
+
+    <ul>
+      <li>De cada cliente quiere guardar su nombre y teléfono de contacto.</li>
+      <li>De cada videojuego quiere guardar el título, la plataforma y el precio.</li>
+      <li>De cada compra quiere guardar qué cliente realizó la compra, qué videojuego compró y la fecha de la compra.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. Solución del problema</h2>
+
+    <h3>Paso 1: Identificar las entidades</h3>
+    <ul>
+      <li><strong>CLIENTE</strong></li>
+      <li><strong>VIDEOJUEGO</strong></li>
+      <li><strong>COMPRA</strong></li>
+    </ul>
+
+    <h3>Paso 2: Identificar los atributos y las claves</h3>
+
+    <table>
+      <tr>
+        <th>Entidad</th>
+        <th>Campos</th>
+        <th>Campo clave</th>
+      </tr>
+      <tr>
+        <td>CLIENTE</td>
+        <td>id_cliente, nombre, telefono</td>
+        <td>id_cliente</td>
+      </tr>
+      <tr>
+        <td>VIDEOJUEGO</td>
+        <td>id_juego, titulo, plataforma, precio</td>
+        <td>id_juego</td>
+      </tr>
+      <tr>
+        <td>COMPRA</td>
+        <td>id_compra, fecha_compra, id_cliente, id_juego</td>
+        <td>id_compra</td>
+      </tr>
+    </table>
+
+    <div class="idea">
+      En la entidad COMPRA aparecen también <strong>id_cliente</strong> e <strong>id_juego</strong>. Estos campos sirven para saber qué cliente hizo la compra y qué videojuego compró. Son claves ajenas o <strong>FK</strong>.
+    </div>
+
+    <h3>Paso 3: Diagrama E/R con campos y claves</h3>
+
+    <svg class="svg-diagrama" viewBox="0 0 620 700" role="img" aria-label="Diagrama entidad relación compacto de la tienda de videojuegos">
+      <!-- CLIENTE -->
+      <rect x="200" y="30" width="220" height="150" rx="10" fill="#ffffff" stroke="#3498db" stroke-width="3"></rect>
+      <rect x="200" y="30" width="220" height="40" rx="10" fill="#d6eaff" stroke="#3498db" stroke-width="3"></rect>
+      <text x="310" y="56" text-anchor="middle" font-size="18" font-weight="bold" fill="#123b5d">CLIENTE</text>
+      <line x1="200" y1="70" x2="420" y2="70" stroke="#3498db" stroke-width="2"></line>
+      <text x="220" y="100" font-size="15" font-weight="bold" fill="#c0392b">PK id_cliente</text>
+      <line x1="220" y1="105" x2="320" y2="105" stroke="#c0392b" stroke-width="2"></line>
+      <text x="220" y="128" font-size="15" fill="#222">nombre</text>
+      <text x="220" y="154" font-size="15" fill="#222">telefono</text>
+
+      <!-- RELACION REALIZA -->
+      <line x1="310" y1="180" x2="310" y2="230" stroke="#555" stroke-width="3"></line>
+      <text x="325" y="205" font-size="17" font-weight="bold" fill="#555">1</text>
+      <polygon points="310,230 375,275 310,320 245,275" fill="#ffe5b4" stroke="#f39c12" stroke-width="3"></polygon>
+      <text x="310" y="281" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">REALIZA</text>
+      <line x1="310" y1="320" x2="310" y2="370" stroke="#555" stroke-width="3"></line>
+      <text x="325" y="350" font-size="17" font-weight="bold" fill="#555">N</text>
+
+      <!-- COMPRA -->
+      <rect x="200" y="370" width="220" height="180" rx="10" fill="#ffffff" stroke="#3498db" stroke-width="3"></rect>
+      <rect x="200" y="370" width="220" height="40" rx="10" fill="#d6eaff" stroke="#3498db" stroke-width="3"></rect>
+      <text x="310" y="396" text-anchor="middle" font-size="18" font-weight="bold" fill="#123b5d">COMPRA</text>
+      <line x1="200" y1="410" x2="420" y2="410" stroke="#3498db" stroke-width="2"></line>
+      <text x="220" y="440" font-size="15" font-weight="bold" fill="#c0392b">PK id_compra</text>
+      <line x1="220" y1="445" x2="318" y2="445" stroke="#c0392b" stroke-width="2"></line>
+      <text x="220" y="468" font-size="15" fill="#222">fecha_compra</text>
+      <text x="220" y="494" font-size="15" font-weight="bold" fill="#8e44ad">FK id_cliente</text>
+      <text x="220" y="520" font-size="15" font-weight="bold" fill="#8e44ad">FK id_juego</text>
+
+      <!-- RELACION INCLUYE LATERAL -->
+      <line x1="420" y1="460" x2="475" y2="460" stroke="#555" stroke-width="3"></line>
+      <text x="440" y="445" font-size="17" font-weight="bold" fill="#555">N</text>
+      <polygon points="515,415 575,460 515,505 455,460" fill="#ffe5b4" stroke="#f39c12" stroke-width="3"></polygon>
+      <text x="515" y="466" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">INCLUYE</text>
+      <line x1="515" y1="505" x2="515" y2="555" stroke="#555" stroke-width="3"></line>
+      <text x="530" y="535" font-size="17" font-weight="bold" fill="#555">1</text>
+
+      <!-- VIDEOJUEGO -->
+      <rect x="405" y="555" width="190" height="130" rx="10" fill="#ffffff" stroke="#3498db" stroke-width="3"></rect>
+      <rect x="405" y="555" width="190" height="38" rx="10" fill="#d6eaff" stroke="#3498db" stroke-width="3"></rect>
+      <text x="500" y="580" text-anchor="middle" font-size="16" font-weight="bold" fill="#123b5d">VIDEOJUEGO</text>
+      <line x1="405" y1="593" x2="595" y2="593" stroke="#3498db" stroke-width="2"></line>
+      <text x="420" y="620" font-size="14" font-weight="bold" fill="#c0392b">PK id_juego</text>
+      <line x1="420" y1="625" x2="512" y2="625" stroke="#c0392b" stroke-width="2"></line>
+      <text x="420" y="647" font-size="14" fill="#222">titulo</text>
+      <text x="420" y="669" font-size="14" fill="#222">plataforma</text>
+    </svg>
+
+    <div class="idea">
+      Para que sea más fácil de copiar, el diagrama se ha colocado en vertical. La entidad COMPRA queda en el centro porque une al CLIENTE con el VIDEOJUEGO.
+    </div>
+
+    <h3>Paso 4: Explicación de las cardinalidades</h3>
+    <ul>
+      <li>Un cliente puede realizar muchas compras.</li>
+      <li>Cada compra pertenece a un solo cliente.</li>
+      <li>Un videojuego puede aparecer en muchas compras.</li>
+      <li>Cada compra corresponde a un videojuego concreto.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Espacio para copiar el ejemplo</h2>
+    <p>Copia aquí el diagrama Entidad-Relación del ejemplo anterior.</p>
+
+    <div class="zona-dibujo">
+      Espacio para copiar a mano el diagrama E/R: entidades, campos, claves y relaciones.
+    </div>
+
+    <label for="copiaEjemplo">Explica con tus palabras qué representa el diagrama:</label>
+    <textarea id="copiaEjemplo" placeholder="Escribe aquí tu explicación..."></textarea>
+  </section>
+
+  <section>
+    <h2>8. Actividad para el alumnado</h2>
+
+    <div class="actividad">
+      <strong>Ahora te toca a ti:</strong> lee el siguiente enunciado y crea el diagrama Entidad-Relación correspondiente.
+    </div>
+
+    <h3>Nuevo problema: academia de idiomas</h3>
+
+    <p>
+      Una pequeña academia de idiomas necesita organizar la información de sus alumnos y de los cursos que ofrece.
+    </p>
+
+    <p>
+      Actualmente la academia apunta las matrículas en una hoja de cálculo, pero quiere crear una base de datos para trabajar mejor.
+    </p>
+
+    <p>La academia necesita guardar la siguiente información:</p>
+
+    <ul>
+      <li>De cada alumno quiere guardar su nombre, apellidos, teléfono y correo electrónico.</li>
+      <li>De cada curso quiere guardar el nombre del curso, el idioma, el nivel y el precio mensual.</li>
+      <li>Cuando un alumno se matricula en un curso, quiere guardar la fecha de matrícula.</li>
+    </ul>
+
+    <div class="aviso">
+      Pista: un alumno puede matricularse en varios cursos y un curso puede tener varios alumnos.
+    </div>
+
+    <h3>Responde a las preguntas</h3>
+
+    <label for="nombreAlumno">Nombre del alumno o alumna:</label>
+    <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre">
+
+    <label for="respuesta1">1. ¿Qué entidades aparecen en el problema?</label>
+    <textarea id="respuesta1" placeholder="Escribe las entidades..."></textarea>
+
+    <label for="respuesta2">2. ¿Qué atributos tiene cada entidad?</label>
+    <textarea id="respuesta2" placeholder="Escribe los atributos de cada entidad..."></textarea>
+
+    <label for="respuesta3">3. ¿Cuál sería el campo clave de cada entidad?</label>
+    <textarea id="respuesta3" placeholder="Indica las claves primarias o PK..."></textarea>
+
+    <label for="respuesta4">4. ¿Qué relación existe entre los alumnos y los cursos?</label>
+    <textarea id="respuesta4" placeholder="Explica la relación..."></textarea>
+
+    <label for="respuesta5">5. ¿Qué cardinalidad tiene la relación?</label>
+    <textarea id="respuesta5" placeholder="Indica si es 1:1, 1:N o N:M y explica por qué..."></textarea>
+
+    <label for="respuesta6">6. Explica con tus palabras por qué has elegido esas entidades y relaciones.</label>
+    <textarea id="respuesta6" placeholder="Escribe tu explicación..."></textarea>
+
+    <h3>Espacio para dibujar tu diagrama E/R</h3>
+    <p>
+      En el cuaderno o en una hoja aparte, dibuja el diagrama. Después puedes describirlo aquí para que quede guardado con tus respuestas.
+    </p>
+
+    <div class="zona-dibujo">
+      Espacio de referencia para dibujar en papel: entidades, campos, PK, FK, relaciones y cardinalidades.
+    </div>
+
+    <label for="descripcionDiagrama">Describe aquí tu diagrama E/R:</label>
+    <textarea id="descripcionDiagrama" placeholder="Ejemplo: ALUMNO se relaciona con MATRÍCULA y MATRÍCULA se relaciona con CURSO..."></textarea>
+
+    <div class="actividad">
+      <strong>Entrega opcional digital:</strong><br><br>
+
+      Puedes realizar tu diagrama E/R utilizando plataformas como:
+
+      <ul>
+        <li>draw.io (diagrams.net)</li>
+        <li>Lucidchart</li>
+        <li>Canva</li>
+      </ul>
+
+      Después puedes exportar el diagrama como imagen PNG o PDF y subirlo junto con tus respuestas.
+    </div>
+
+    <button onclick="descargarRespuestas()">Descargar respuestas</button>
+  </section>
+
+</main>
+
+<footer>
+  <p>Actividad de introducción a bases de datos — 1º de Bachillerato</p>
+</footer>
+
+<script>
+  function descargarRespuestas() {
+    const nombre = document.getElementById('nombreAlumno').value.trim() || 'Alumno sin nombre';
+
+    const contenido = `RESPUESTAS - DIAGRAMAS ENTIDAD-RELACIÓN\n\n` +
+      `Nombre: ${nombre}\n\n` +
+      `COPIA DEL EJEMPLO\n` +
+      `Explicación del diagrama de GameZone:\n${document.getElementById('copiaEjemplo').value}\n\n` +
+      `ACTIVIDAD: ACADEMIA DE IDIOMAS\n\n` +
+      `1. Entidades:\n${document.getElementById('respuesta1').value}\n\n` +
+      `2. Atributos de cada entidad:\n${document.getElementById('respuesta2').value}\n\n` +
+      `3. Campo clave de cada entidad:\n${document.getElementById('respuesta3').value}\n\n` +
+      `4. Relación entre alumnos y cursos:\n${document.getElementById('respuesta4').value}\n\n` +
+      `5. Cardinalidad:\n${document.getElementById('respuesta5').value}\n\n` +
+      `6. Explicación de entidades y relaciones:\n${document.getElementById('respuesta6').value}\n\n` +
+      `Descripción del diagrama E/R:\n${document.getElementById('descripcionDiagrama').value}\n`;
+
+    const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+    const enlace = document.createElement('a');
+    enlace.href = URL.createObjectURL(blob);
+    enlace.download = 'respuestas_diagrama_er_' + nombre.replaceAll(' ', '_') + '.txt';
+    enlace.click();
+    URL.revokeObjectURL(enlace.href);
+  }
+</script>
+
+</body>
+</html>
